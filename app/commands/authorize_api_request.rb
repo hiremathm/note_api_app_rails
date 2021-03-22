@@ -24,7 +24,7 @@ class AuthorizeApiRequest
 	end
 
 	def get_token
-		logger.debug "HEADERS #{headers.inspect}"
+		logger.warn "HEADERS #{headers.inspect}"
 		if headers['X-Auth'].present?
 			return headers['X-Auth'].split(' ').last
 		else
