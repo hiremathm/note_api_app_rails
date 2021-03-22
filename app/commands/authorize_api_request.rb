@@ -24,9 +24,9 @@ class AuthorizeApiRequest
 	end
 
 	def get_token
-		Rails.logger.info "HEADERS #{headers.inspect}"
-		if headers['X-Auth'].present?
-			return headers['X-Auth'].split(' ').last
+		Rails.logger.info "HEADERS #{headers["HTTP_X_AUTH"]}"
+		if headers['HTTP_X_AUTH'].present?
+			return headers['HTTP_X_AUTH'].split(' ').last
 		else
 			errors.add(:token, 'Invalid Authorization')
 		end
