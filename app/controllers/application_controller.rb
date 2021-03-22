@@ -5,6 +5,7 @@ class ApplicationController < ActionController::API
 
 	def authenticate_request
 	  @current_user = AuthorizeApiRequest.call(request.headers).result
+	  Rails.logger.debug "RESULT #{AuthorizeApiRequest.call(request.headers)}"
 	  unless @current_user
 		render json: {status: "failed"}, status: 401 and return
 	  end
