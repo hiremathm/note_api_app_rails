@@ -20,7 +20,14 @@ class AuthorizeApiRequest
 	end
 
 	def decode_auth_token
-		@decode_auth_token ||= JsonWebToken.decode(get_token)
+		token = get_token
+		token = JsonWebToken.decode(token)
+		if token.present?
+			@decode_auth_token = token
+		else
+			@decode_auth_token = false
+		end
+		# @decode_auth_token ||= JsonWebToken.decode(get_token)
 	end
 
 	def get_token
