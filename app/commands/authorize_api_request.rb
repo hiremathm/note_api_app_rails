@@ -21,8 +21,9 @@ class AuthorizeApiRequest
 
 	def decode_auth_token
 		token = get_token
+		Rails.logger.info "GOTTOKEN1 #{token}"
 		token = JsonWebToken.decode(token)
-		Rails.logger.info "GOTTOKEN #{token}"
+		Rails.logger.info "GOTTOKEN2 #{token}"
 		if token.present?
 			@decode_auth_token = token
 		else
