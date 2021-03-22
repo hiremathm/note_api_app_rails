@@ -24,8 +24,8 @@ class AuthorizeApiRequest
 	end
 
 	def get_token
-		if headers['Authorization'].present?
-			return headers['Authorization'].split(' ').last
+		if headers['x-auth'].present?
+			return headers['x-auth'].split(' ').last
 		else
 			errors.add(:token, 'Invalid Authorization')
 		end
