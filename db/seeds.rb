@@ -1,0 +1,1 @@
+Role.create([{name: 'owner', description: 'The owner can do all CRUD operations'},{name: 'contributor', description: 'The owner can do update and read operations'},{name: 'reader', description: 'The reader can read note'}])
