@@ -2,6 +2,8 @@ class JsonWebToken
 	class << self
 		def encode(payload, exp = 24.hours.from_now)
 			payload[:exp] = exp.to_i
+			Rails.logger.info "SECRET_KEY_BASE #{Rails.application.secrets.secret_key_base}"
+
 			JWT.encode(payload, Rails.application.secrets.secret_key_base)
 		end
 
