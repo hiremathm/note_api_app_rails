@@ -6,8 +6,9 @@ class JsonWebToken
 		end
 
 		def decode(token)
+			Rails.logger.info "SECRET_KEY_BASE #{Rails.application.secrets.secret_key_base}"
 			begin
-				body = JWT.decode(token, Rails.application.secrets.secret_key_base)[0]
+				body = JWT.decode(token, Rails.application.secrets.secret_key_base)
 				Rails.logger.info "BODYIS #{body.inspect}"
 				return HashWithIndifferentAccess.new body
 			rescue Exception => e
