@@ -21,9 +21,7 @@ class AuthorizeApiRequest
 
 	def decode_auth_token
 		token = get_token
-		Rails.logger.info "GOTTOKEN1 #{token}"
 		token = JsonWebToken.decode(token)
-		Rails.logger.info "GOTTOKEN2 #{token}"
 		if token.present?
 			@decode_auth_token = token
 		else
@@ -35,7 +33,6 @@ class AuthorizeApiRequest
 	def get_token
 		Rails.logger.info "HEADERS #{headers["HTTP_X_AUTH"]}"
 		if headers["HTTP_X_AUTH"].present?
-			Rails.logger.info "AUTH PRESENT"
 			return headers["HTTP_X_AUTH"]
 		else
 			errors.add(:token, 'Invalid Authorization')
