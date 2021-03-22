@@ -24,7 +24,7 @@ class AuthorizeApiRequest
 	end
 
 	def get_token
-		logger.warn "HEADERS #{headers.inspect}"
+		Rails.logger.info "HEADERS #{headers.inspect}"
 		if headers['X-Auth'].present?
 			return headers['X-Auth'].split(' ').last
 		else
