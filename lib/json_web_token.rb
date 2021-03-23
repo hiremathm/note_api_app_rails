@@ -14,7 +14,7 @@ class JsonWebToken
 				if ENV["RAILS_ENV"] == "development"
 					body = JWT.decode(token, Rails.application.secrets.secret_key_base)[0]
 				else
-					body = JWT.encode(token, ENV["SECRET_KEY_BASE"])[0]
+					body = JWT.encode(token, ENV["SECRET_KEY_BASE"])
 				end
 				Rails.logger.info "BODY #{body.inspect}"
 				return HashWithIndifferentAccess.new body
