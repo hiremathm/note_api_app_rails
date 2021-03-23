@@ -2,17 +2,24 @@ class JsonWebToken
 	class << self
 		def encode(payload, exp = 24.hours.from_now)
 			payload[:exp] = exp.to_i
-			# Rails.logger.info "SECRET_KEY_BASE #{ENV['SECRET_KEY_BASE']}"
-			# Rails.application.secrets.secret_key_base
-			JWT.encode(payload, ENV['SECRET_KEY_BASE'])
+			if ENV["RAILS_ENV"] == "development"
+				JWT.encode(payload, Rails.application.secrets.secret_key_base)
+			else
+				JWT.encode(payload, ENV['SECRET_KEY_BASE'])
+			end
 		end
 
 		def decode(token)
-			# Rails.logger.info "SECRET_KEY_BASE #{Rails.application.secrets.secret_key_base}"
+				Rails.logger.info "Environemt : #{ENV["RAILS_ENV"]}"
 			begin
-				body = JWT.decode(token, ENV['SECRET_KEY_BASE'])[0]
-				# Rails.logger.info "BODYIS #{body.inspect}"
+				if ENV["RAILS_ENV"] == "development"
+					body = JWT.decode(token, Rails.application.secrets.secret_key_base)[0]
+				else
+					body = JWT.encode(payload, ENV['SECRET_KEY_BASE'])
+				end
+
 				return HashWithIndifferentAccess.new body
+				
 			rescue Exception => e
 				Rails.logger.info "Exception #{e.message}"
 				return nil

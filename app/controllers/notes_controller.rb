@@ -62,15 +62,26 @@ class NotesController < ApplicationController
 		role_id = params[:note][:role_id].to_i
 		begin
 			user_share = UserShare.new(role_id: role_id, note_id: note_id, user_id: user_id)
-			begin
-				user_share.save!
-				Rails.logger.info "UserShare #{user_share.errors.inspect}"
-			rescue Exception => e
-				Rails.logger.info "User Share Exception #{e.message.inspect}"
+			if user_share.save
+				render json: {status: "success"}
+			else
+				raise "Opps!, Something went wrong."
 			end
-			render json: {status: "success"}
-		rescue Exception =>e
+		rescue Exception => e
 			render json: {status: "failed", error: {user_id: "invalid user id"}}, status: 422
+		end
+	end
+
+	def get_all_collabrators
+		note_id = params[:id].to_i
+		begin
+			user_share = UserShare.where(note_id: note_id).map {|k| k.slice(:id).as_json.merge(k.get_role_details)}
+			
+			render json: {status: "success", user_shares: user_share}
+			
+		rescue Exception => e
+			Rails.logger.info "Exception #{e.message}"
+			render json: {status: "failed", error: {user_id: "invalid note id"}}, status: 422
 		end
 	end
 
