@@ -61,8 +61,13 @@ class NotesController < ApplicationController
 		note_id = params[:id].to_i
 		role_id = params[:note][:role_id].to_i
 		begin
-			user_share = UserShare.create(role_id: role_id, note_id: note_id, user_id: user_id)
-			Rails.logger.info "UserShare #{user_share.errors.inspect}"
+			user_share = UserShare.new(role_id: role_id, note_id: note_id, user_id: user_id)
+			begin
+				user_share.save!
+				Rails.logger.info "UserShare #{user_share.errors.inspect}"
+			rescue Exception => e
+				Rails.logger.info "User Share Exception #{e.message.inspect}"
+			end
 			render json: {status: "success"}
 		rescue Exception =>e
 			render json: {status: "failed", error: {user_id: "invalid user id"}}, status: 422
