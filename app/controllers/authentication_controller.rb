@@ -36,6 +36,14 @@ class AuthenticationController < ApplicationController
 		end
 	end
 
+	def get_roles
+		if @current_user
+			render json: {status: "success", roles: Role.all}, status: 200
+		else
+			render json: {status: "failed", error: {message: "Invalid Auth Token"}}, status: 401
+		end
+	end
+
 	private
 
 	def authenticate_params

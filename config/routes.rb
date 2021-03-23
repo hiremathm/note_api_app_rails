@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   post "/users/signup", to: "authentication#signup"
   get "/users/:id", to: "authentication#show"
   get "/users", to: "authentication#index"
+  get "/roles", to: "authentication#get_roles"
 end
